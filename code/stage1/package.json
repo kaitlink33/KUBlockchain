@@ -1,0 +1,21 @@
+{
+  "name": "trustescrow-contracts",
+  "version": "1.0.0",
+  "description": "TrustEscrow smart contracts — KU Block-a-Thon 2026",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:local": "hardhat run scripts/deploy.js --network hardhat",
+    "deploy:xrpl": "hardhat run scripts/deploy.js --network xrpl_devnet",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.2",
+    "hardhat": "^2.28.6"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
+    "dotenv": "^16.0.3"
+  },
+  "type": "module"
+}
