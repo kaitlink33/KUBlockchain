@@ -904,8 +904,12 @@ export default function QuestChain() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer   = await provider.getSigner();
     const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
-    const tx = await contract[method](...args, value !== "0" ? { value: ethers.utils.parseEther(value) } : {});
-    await tx.wait();
+
+    const overrides = { gasLimit: 500000 }; // explicit — XRPL EVM won't estimate reliably
+    if (value !== "0") overrides.value = ethers.utils.parseEther(value);
+
+    const tx = await contract[method](...args, overrides);
+    await tx.wait(1); // wait 1 confirmation only (XRPL is fast)
     return tx;
   };
 
@@ -979,19 +983,30 @@ export default function QuestChain() {
       const signer   = await provider.getSigner();
       const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
 
-      const rewardPer  = reward / milestones.length;
-      const amounts    = milestones.map(() => ethers.utils.parseEther(rewardPer.toFixed(6)));
-      const totalValue = ethers.utils.parseEther(reward.toString());
-      const tx = await contract.createJob(title, cid, milestones, amounts, { value: totalValue });
+      // ── Fix: build amounts in BigNumber, sum them as totalValue ──────────────
+      const totalWei   = ethers.utils.parseEther(reward.toString());
+      const perWei     = totalWei.div(milestones.length);
+      // give any remainder to the last milestone to avoid dust mismatch
+      const amounts    = milestones.map((_, i) =>
+        i === milestones.length - 1
+          ? totalWei.sub(perWei.mul(milestones.length - 1))
+          : perWei
+      );
+
+      const tx = await contract.createJob(title, cid, milestones, amounts, {
+        value:    totalWei,
+        gasLimit: 800000, // createJob is heavier — needs more gas
+      });
+
       showToast("Transaction submitted… waiting for confirmation", "success");
-      await tx.wait();
+      await tx.wait(1);
 
       showToast("Quest posted to chain! ⚔", "success");
       await fetchQuests();
       setPage("board");
     } catch (e) {
       console.error(e);
-      showToast(e.message?.slice(0, 80) || "Failed to post quest", "error");
+      showToast(e.reason || e.message?.slice(0, 80) || "Failed to post quest", "error");
     }
   };
 
