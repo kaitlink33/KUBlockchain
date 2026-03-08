@@ -1,4 +1,4 @@
-# 🔐 TrustEscrow — Decentralized Freelance Escrow & Reputation
+# 🔐 QuestChain, TrustEscrow Enabled — Decentralized Freelance Escrow & Reputation
 
 **KU Block-a-Thon 2026** | Built in 36 hours
 
