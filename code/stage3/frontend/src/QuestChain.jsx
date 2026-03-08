@@ -850,16 +850,20 @@ export default function QuestChain() {
 
   const showToast = (message, type = "success") => setToast({ message, type });
 
-  // ── Fetch stats from backend ────────────────────────────────────────────────
-  useEffect(() => {
-    fetch(`${API_BASE}/stats`).then(r => r.json()).then(setStats).catch(() => {});
-  }, []);
+
 
   // ── Fetch all jobs from backend ─────────────────────────────────────────────
   const fetchQuests = useCallback(async () => {
     setLoadingQuests(true);
     try {
-      const total = stats.totalJobs || 0;
+      // ── Fix: fetch fresh stats directly, don't rely on stale state ──
+      const statsRes = await fetch(`${API_BASE}/stats`);
+      const freshStats = await statsRes.json();
+      const total = freshStats.totalJobs || 0;
+
+    // update stats bar too
+      setStats(freshStats);
+
       if (total === 0) { setQuests([]); setLoadingQuests(false); return; }
 
       const jobs = await Promise.all(
@@ -871,30 +875,31 @@ export default function QuestChain() {
       const mapped = jobs
         .filter(Boolean)
         .map((j, i) => ({
-          id:            i,
-          title:         j.title         || `Quest #${i}`,
-          giver:         j.client        || "0x0000…0000",
-          freelancer:    j.freelancer    || null,
-          reward:        parseFloat(j.totalAmount || 0),
-          xp:            Math.round(parseFloat(j.totalAmount || 0) * 28),
-          rarity:        getRarity(parseFloat(j.totalAmount || 0)),
-          status:        j.status        || "Open",
-          milestoneCount: j.milestoneCount || 0,
-          milestones:    j.milestones    || [],
-          description:   j.description  || "",
-          tags:          j.skills        || [],
-          category:      j.category      || "Development",
-          deadline:      "Open",
-          attempts:      0,
-          completions:   j.status === "Completed" ? 1 : 0,
+          id:             i,
+          title:          j.title          || `Quest #${i}`,
+          giver:          j.client         || "0x0000…0000",
+          freelancer:     j.freelancer     || null,
+        // ── Fix: backend already returns formatted ETH string, not BigInt ──
+          reward:         parseFloat(j.totalAmount || 0),
+          xp:             Math.round(parseFloat(j.totalAmount || 0) * 28),
+          rarity:         getRarity(parseFloat(j.totalAmount || 0)),
+          status:         j.status         || "Open",
+          milestoneCount: j.milestones?.length || j.milestoneCount || 0,
+          milestones:     j.milestones     || [],
+          description:    j.ipfsMetadata?.description || "",
+          tags:           j.ipfsMetadata?.skills      || [],
+          category:       "Development",
+          deadline:       "Open",
+          attempts:       0,
+          completions:    j.status === "Completed" ? 1 : 0,
         }));
 
       setQuests(mapped);
-    } catch (e) {
+   } catch (e) {
       console.error("Failed to fetch quests:", e);
     }
     setLoadingQuests(false);
-  }, [stats.totalJobs]);
+  }, []); // ── Fix: remove stats.totalJobs dependency — we fetch fresh inside
 
   useEffect(() => { fetchQuests(); }, [fetchQuests]);
 
@@ -1000,8 +1005,8 @@ export default function QuestChain() {
 
       showToast("Transaction submitted… waiting for confirmation", "success");
       await tx.wait(1);
-
       showToast("Quest posted to chain! ⚔", "success");
+      await new Promise(resolve => setTimeout(resolve, 2000));
       await fetchQuests();
       setPage("board");
     } catch (e) {
