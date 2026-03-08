@@ -212,7 +212,7 @@ const doc = new Document({
 
       // PART 2: CODE EXPLAINED
       h1("Part 2: Code Walkthrough"),
-      p("This section walks through every significant part of the codebase, explaining what each line does and why."),
+      p("This section walks through every significant part of the codebase you should develop, explaining what the functionality does in action and why. Good architecture is essential."),
       sp(),
 
       h2("2.1 TrustEscrow.sol — The Smart Contract"),
@@ -248,38 +248,6 @@ const doc = new Document({
       sp(),
       resource("Wagmi Documentation", "https://wagmi.sh/", "Full wagmi hooks reference"),
       resource("RainbowKit Documentation", "https://www.rainbowkit.com/docs/introduction", "RainbowKit setup and theming guide"),
-      sp(),
-
-      new Paragraph({ children: [new PageBreak()] }),
-
-      // PART 3: TRACK STRATEGY
-      h1("Part 3: Hackathon Track Strategy"),
-      p("TrustEscrow is designed to qualify for three prize tracks simultaneously. Here is how each qualification is demonstrated:"),
-      sp(),
-
-      h2("3.1 XRPL Real-World Impact ($1,500 first place)"),
-      p("TrustEscrow solves a real-world problem (freelance payment fraud) using XRPL's core features:"),
-      bullet("Deployed on XRPL EVM Sidechain Devnet — all transactions use XRP"),
-      bullet("Smart escrow: client deposits XRP → freelancer receives XRP on approval"),
-      bullet("Payment finality in 3-5 seconds with sub-cent fees (vs Ethereum's 15+ second finality and variable gas)"),
-      bullet("Could integrate RLUSD stablecoin in future for stable-price escrow"),
-      sp(),
-
-      h2("3.2 Pinata Builder Track ($2,000 max)"),
-      p("Pinata is integral to the architecture, not bolted on:"),
-      bullet("Job metadata (description, skills, attachments) stored on IPFS via Pinata — CID stored on-chain"),
-      bullet("NFT metadata (certificate JSON) stored on IPFS via Pinata — CID becomes tokenURI"),
-      bullet("Files tagged with keyvalue metadata for dashboard querying"),
-      bullet("Fast retrieval via gateway.pinata.cloud shown in frontend"),
-      bullet("If Pinata goes down, CIDs are still on-chain — any IPFS gateway can serve the content"),
-      sp(),
-
-      h2("3.3 Open Innovation DApp ($1,000)"),
-      p("Multiple on-chain state changes are demonstrated:"),
-      bullet("createJob() — writes Job struct to contract storage, holds XRP"),
-      bullet("acceptJob() — updates freelancer field and status"),
-      bullet("approveMilestone() — changes approved/released flags, transfers XRP, updates reputation score"),
-      bullet("_mintReputationNFT() — mints ERC-721 token to freelancer wallet"),
       sp(),
 
       new Paragraph({ children: [new PageBreak()] }),
