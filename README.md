@@ -4,7 +4,7 @@
 
 > Trustless Transparent Tamper-proof
 
-TrustEscrow is a decentralized freelance platform where clients lock funds into smart contract escrow, freelancers complete milestone-based work, and reputation is earned as on-chain NFTs — no middleman, no fraud.
+TrustEscrow is a decentralized freelance platform where clients lock funds into smart contract escrow, freelancers complete milestone-based work, and reputation is earned as on-chain NFTs. No middleman, no fraud.
 
 ---
 
