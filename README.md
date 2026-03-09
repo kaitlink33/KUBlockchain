@@ -1,4 +1,4 @@
-# QuestChain, TrustEscrow Enabled — Decentralized Freelance Escrow & Reputation
+# QuestChain, TrustEscrow Enabled : a Decentralized Freelance Escrow & Reputation
 
 **KU Hackathon: Midwest Blockathon 2026** | Built in 36 hours
 
