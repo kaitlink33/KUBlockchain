@@ -1,24 +1,24 @@
-# 🔐 QuestChain, TrustEscrow Enabled — Decentralized Freelance Escrow & Reputation
+# QuestChain, TrustEscrow Enabled — Decentralized Freelance Escrow & Reputation
 
-**KU Block-a-Thon 2026** | Built in 36 hours
+**KU Hackathon: Midwest Blockathon 2026** | Built in 36 hours
 
-> Trustless. Transparent. Tamper-proof.
+> Trustless Transparent Tamper-proof
 
 TrustEscrow is a decentralized freelance platform where clients lock funds into smart contract escrow, freelancers complete milestone-based work, and reputation is earned as on-chain NFTs — no middleman, no fraud.
 
 ---
 
-## 🎯 Track Eligibility
+## Track Eligibility
 
-| Track | Qualification |
+| Track | Meets |
 |---|---|
-| **XRPL Real-World Impact** ($1,500) | Deploys on XRPL EVM Sidechain, uses XRP for payments |
-| **Pinata Builder Track** ($2,000) | Pinata used for job metadata + NFT metadata storage |
-| **Open Innovation DApp** ($1,000) | Full DApp with on-chain state changes |
+| **XRPL Real-World Impact** | Deploys on XRPL EVM Sidechain, uses XRP for payments |
+| **Pinata Builder Track**  | Pinata used for job metadata + NFT metadata storage |
+| **Open Innovation DApp**  | Full DApp with on-chain state changes |
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 Client (React + RainbowKit)
@@ -35,7 +35,7 @@ Client (React + RainbowKit)
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 18+
@@ -43,32 +43,17 @@ Client (React + RainbowKit)
 - Pinata account (free tier works)
 
 ### 1. Smart Contracts (Stage 1)
-```bash
-cd code/stage1
-npm install
-npx hardhat test              # run unit tests
-npm run deploy:xrpl           # deploy to XRPL EVM Devnet
-```
+
 
 ### 2. Backend (Stage 2)
-```bash
-cd code/stage2/server
-npm install
-cp .env.example .env          # fill in your keys
-npm run dev                   # starts on port 4000
-```
+
 
 ### 3. Frontend (Stage 3)
-```bash
-cd code/stage3/frontend
-npm install
-cp .env.example .env          # add contract address
-npm start                     # opens on port 3000
-```
+
 
 ---
 
-## 🔑 Environment Variables
+## Environment Variables
 
 ### Backend `.env`
 ```
@@ -88,30 +73,22 @@ REACT_APP_API_URL=http://localhost:4000/api
 REACT_APP_WALLETCONNECT_PROJECT_ID=your_project_id
 ```
 
----
-
-## 📋 Git Commit Stages
-
-| Stage | Commit Message | Contents |
-|---|---|---|
-| Stage 1 | `feat: smart contracts — TrustEscrow escrow + NFT reputation` | Solidity, Hardhat, tests |
-| Stage 2 | `feat: backend API — Pinata IPFS + contract event listeners` | Express, Pinata service |
-| Stage 3 | `feat: React frontend — job board, escrow UI, reputation profiles` | Full React app |
+|
 
 ---
 
-## 📸 Demo Flow
+## Demo Flow
 
 1. **Client** connects wallet → Posts "Build a DeFi dashboard" with 2 milestones (1 XRP each)
 2. Metadata uploaded to IPFS via Pinata → CID saved on-chain
 3. **Freelancer** browses job board → Accepts job (on-chain state change)
 4. Freelancer completes work → **Client** approves milestone → 0.99 XRP auto-released
 5. After all milestones → **Reputation NFT** minted to freelancer wallet (metadata on IPFS)
-6. Anyone can view freelancer's on-chain reputation score at `/profile/:address`
+6. Anyone can view freelancer's on-chain reputation score at `/walletprofile/:address`
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Smart Contract**: Solidity 0.8.20, OpenZeppelin ERC-721, Hardhat
 - **Blockchain**: XRPL EVM Sidechain (Devnet)
@@ -122,7 +99,7 @@ REACT_APP_WALLETCONNECT_PROJECT_ID=your_project_id
 
 ---
 
-## 📜 Contract Address
-Deployed on XRPL EVM Devnet: `[FILL_AFTER_DEPLOY]`
+## Contract Address
+Deployed on XRPL EVM Testnet: see devpost
 
-Explorer: https://evm-sidechain.xrpl.org
+Explorer: see devpost
